@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-gripoDb
+spec:
+  serviceName: {{ .Release.Name }}-gripoDb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gripoDb
+  template:
+    metadata:
+      labels:
+        app: gripoDb
+    spec:
+      containers:
+        - name: gripoDb
+          image: {{ .Values.image.gripoDb }}
+          ports:
+            - containerPort: {{ .Values.service.gripoDb.port }}
+          volumeMounts:
+            - name: db-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: db-storage
+      spec:
+        storageClassName: {{ .Values.persistence.gripoDb.storageClass }}
+        accessModes:
+          - {{ .Values.persistence.gripoDb.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.gripoDb.size }}
+
+
+

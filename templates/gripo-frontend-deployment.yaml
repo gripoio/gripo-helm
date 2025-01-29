@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gripoFrontend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: gripoFrontend
+  template:
+    metadata:
+      labels:
+        app: gripoFrontend
+    spec:
+      containers:
+        - name: gripoFrontend
+          image: {{ .Values.image.gripoFrontend }}
+          ports:
+            - containerPort: {{ .Values.service.gripoFrontend.port }}

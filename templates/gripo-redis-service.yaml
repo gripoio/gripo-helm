@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-gripoRedis
+spec:
+  type: {{ .Values.service.gripoRedis.type }}
+  ports:
+    - port: {{ .Values.service.gripoRedis.port }}
+      targetPort: {{ .Values.service.gripoRedis.port }}
+  selector:
+    app: gripoRedis
+

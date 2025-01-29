@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-gripoRedis
+spec:
+  serviceName: {{ .Release.Name }}-gripoRedis
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gripoRedis
+  template:
+    metadata:
+      labels:
+        app: gripoRedis
+    spec:
+      containers:
+        - name: gripoRedis
+          image: {{ .Values.image.gripoRedis }}
+          ports:
+            - containerPort: {{ .Values.service.gripoRedis.port }}
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-storage
+      spec:        
+        storageClassName: {{ .Values.persistence.gripoRedis.storageClass }}
+        accessModes:
+          - {{ .Values.persistence.gripoRedis.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.gripoRedis.size }}

@@ -1,0 +1,94 @@
+# Default values for helm-source-gripo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  nginx: "gripo/gripo-nginx:2.0"
+  gripoDb: "gripo/gripo-db:2.0"
+  gripoRedis: "gripo/gripo-redis:2.0"
+  gripoApplication: "gripo/gripo-application:beta-2.0"
+  gripoFrontend: "gripo/gripo-frontend:beta-2.0"
+  gripoTerminal: "gripo/gripo-terminal:beta-2.0"
+
+
+env:
+  nginx:
+    LISTEN_PORT: 5055
+    API_BACKEND: "http://gripoApplication:5080"
+    TERMINAL_BACKEND: "http://gripoTerminal:8377"
+    FRONTEND_BACKEND: "http://gripoFrontend:3000"
+  gripoApplication:
+    GRIPO_SERVER_ADDRESS: ":5080"
+
+
+service:
+  nginx:
+    type: "ClusterIP"
+    port: 5055
+  gripoApplication:
+    type: "ClusterIP"
+    port: 5080
+  gripoFrontend:
+    type: "ClusterIP"
+    port: 3000
+  gripoTerminal:
+    type: "ClusterIP"
+    port: 8377
+  gripoDb:
+    type: "ClusterIP"
+    port: 27017
+  gripoRedis:
+    type: "ClusterIP"
+    port: 6379
+
+
+persistence:
+  gripoDb:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 10Gi
+  gripoRedis:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 2Gi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 70
+
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  hosts:
+    - host: gripo.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: nginx
+              port:
+                number: 5055
+  tls: []
+

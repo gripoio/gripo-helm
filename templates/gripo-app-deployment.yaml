@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gripoApplication
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: gripoApplication
+  template:
+    metadata:
+      labels:
+        app: gripoApplication
+    spec:
+      containers:
+        - name: gripoApplication
+          image: {{ .Values.image.gripoApplication }}
+          env:
+            - name: GRIPO_SERVER_ADDRESS
+              value: "{{ .Values.env.gripoApplication.GRIPO_SERVER_ADDRESS }}"
+          ports:
+            - containerPort: {{ .Values.service.gripoApplication.port }}
