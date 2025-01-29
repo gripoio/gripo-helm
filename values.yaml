@@ -5,20 +5,20 @@
 replicaCount: 1
 
 image:
-  nginx: "gripo/gripo-nginx:2.0"
-  gripoDb: "gripo/gripo-db:2.0"
-  gripoRedis: "gripo/gripo-redis:2.0"
-  gripoApplication: "gripo/gripo-application:beta-2.0"
-  gripoFrontend: "gripo/gripo-frontend:beta-2.0"
-  gripoTerminal: "gripo/gripo-terminal:beta-2.0"
+  nginx: "gripo/gripo-nginx:latest"
+  gripoDb: "gripo/gripo-db:latest"
+  gripoRedis: "gripo/gripo-redis:latest"
+  gripoApplication: "gripo/gripo-application:latest"
+  gripoFrontend: "gripo/gripo-frontend:latest"
+  gripoTerminal: "gripo/gripo-terminal:latest"
 
 
 env:
   nginx:
     LISTEN_PORT: 5055
-    API_BACKEND: "http://gripoApplication:5080"
-    TERMINAL_BACKEND: "http://gripoTerminal:8377"
-    FRONTEND_BACKEND: "http://gripoFrontend:3000"
+    API_BACKEND: "http://gripo-application:5080"
+    TERMINAL_BACKEND: "http://gripo-terminal:8377"
+    FRONTEND_BACKEND: "http://gripo-frontend:3000"
   gripoApplication:
     GRIPO_SERVER_ADDRESS: ":5080"
 

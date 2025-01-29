@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-gripoTerminal
+  name: gripo-terminal
 spec:
   type: {{ .Values.service.gripoTerminal.type }}
   ports:
     - port: {{ .Values.service.gripoTerminal.port }}
       targetPort: {{ .Values.service.gripoTerminal.port }}
   selector:
-    app: gripoTerminal
+    app: gripo-terminal

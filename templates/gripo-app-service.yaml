@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-gripoApplication
+  name: gripo-application
 spec:
   type: {{ .Values.service.gripoApplication.type }}
   ports:
     - port: {{ .Values.service.gripoApplication.port }}
       targetPort: {{ .Values.service.gripoApplication.port }}
   selector:
-    app: gripoApplication
+    app: gripo-application

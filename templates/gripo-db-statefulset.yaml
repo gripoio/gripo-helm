@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-gripoDb
+  name: gripo-db
 spec:
-  serviceName: {{ .Release.Name }}-gripoDb
+  serviceName: gripo-db
   replicas: 1
   selector:
     matchLabels:
-      app: gripoDb
+      app: gripo-db
   template:
     metadata:
       labels:
-        app: gripoDb
+        app: gripo-db
     spec:
       containers:
-        - name: gripoDb
+        - name: gripo-db
           image: {{ .Values.image.gripoDb }}
           ports:
             - containerPort: {{ .Values.service.gripoDb.port }}
